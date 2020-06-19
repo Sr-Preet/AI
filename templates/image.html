@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sarpreet</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap">
+    <link rel="stylesheet" type="text/css"
+          href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.0/css/mdb.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled-addons-4.19.0.min.css">
+    <style></style>
+</head>
+<body>
+<div align="center" style="margin-bottom: 50px;">
+{% block content %}
+    {% if original %}
+
+    {% else %}
+        <h2>Choose A Photo To Colorize</h2>
+        <form class="md-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="margin-left: 110px;">
+                {{ form.img }}
+            </div><br><br>
+            <div class="file-path-wrapper">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </form>
+    {% endif %}
+
+    {% if original %}
+        {% for x in original %}
+            <h4>Original</h4>
+            <img src="{{ x.img.url }}" align="center" height="100%">
+        {% endfor %}
+        <h4>Colorized</h4>
+        <img align="center" src="{{ color.output_url }}"><br>
+    {% endif %}
+    {% if original %}
+        <a href="{% url 'myapp:home' %}"><h4 style="color: blue;">Colorize Another Image</h4></a>
+    {% else %}
+    {% endif %}
+{% endblock content %}
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<footer>
+    <div align="center">
+        <span>Coding By: Sarpreet</span><br><br>
+        <span><a href="{% url 'myapp:home' %}">Home</a> </span>
+    </div>
+</footer>
+</body>
+</html>

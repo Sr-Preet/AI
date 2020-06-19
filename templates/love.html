@@ -1,0 +1,17 @@
+{% extends 'image.html' %}
+{% block content %}
+<h2 style="margin-top: 50px;">Love Calculator</h2>
+    <form method="post">
+    {% csrf_token %}
+    <label for="boy">Enter Your Name</label>
+    <input id="boy" name="boy" type="text"><br><br>
+
+    <label for="girl">Enter Your Partner's Name</label>
+    <input id="girl" name="girl" type="text"><br><br>
+    <button class="btn btn-primary" type="submit">Calculate</button>
+    </form>
+    {% if perc %}
+        <h5>Love Percentage: {{ perc }}</h5><br>
+        <h5>{{ res }}</h5>
+    {% endif %}
+{% endblock %}
