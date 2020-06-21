@@ -1,7 +1,10 @@
+import datetime
+
 from django.shortcuts import render, redirect
-from myapp.forms import ImageForm
-from myapp.models import Image
+from myapp.forms import ImageForm, ChatterForm
+from myapp.models import Image, Chatter
 import requests
+import Algorithmia
 
 CONSTANT = 1
 
@@ -96,3 +99,36 @@ def collatz(request):
         context['ls'] = ls
         context['it'] = it
     return render(request, 'collatz.html', context)
+
+
+def chat(request):
+    return render(request, 'chatbot.html', {})
+
+
+def chatter(request):
+    context = {}
+    form = ChatterForm()
+    context['form'] = form
+    start = datetime.datetime.today()
+    end = start - datetime.timedelta(days=7)
+    x = Chatter.objects.all().filter(date_added__range=[end, start])
+    if request.method == 'POST':
+        t = request.POST['txt']
+        input = {
+            "text": str(t),
+            "language": "en",
+            "replacer": "*"
+        }
+        client = Algorithmia.client('simSOfi6O34iCn1hnqpkdWIT2Wx1')
+        algo = client.algo('FedericoV/ProphanityFilter/0.1.1')
+        x = algo.pipe(input).result
+        t = x['filtered text']
+        obj = Chatter.objects.create(txt=t)
+        obj.save()
+        x = Chatter.objects.all().filter(date_added__range=[end, start])
+    context['txt'] = x
+    return render(request, 'chatter.html', context)
+
+
+def soss(request):
+    return render(request, 'soss.html', {})

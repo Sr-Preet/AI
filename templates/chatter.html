@@ -1,0 +1,57 @@
+<html>
+<head>
+    <style>
+        body {
+            background-color: orange;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            margin: 0;
+            height: 100vh;
+            align-items: center;
+            align-content: center;
+        }
+
+        .thought {
+            display: flex;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 30px;
+            min-width: 15px;
+            max-width: 80px;
+            min-height: 15px;
+            margin: 10px;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .thought:before,
+        .thought:after {
+            content: "";
+            background-color: #fff;
+            border-radius: 50%;
+            display: block;
+            position: absolute;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+{% if txt %}
+    <marquee direction="down" width="100%" height="90%" behavior="alternate">
+    {% for i in txt %}
+        <marquee behavior="alternate" scrollamount="{{ forloop.counter }}*2">
+            <div class="thought">{{ i.txt }}</div>
+        </marquee>
+    {% endfor %}
+    </marquee>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="txt">&nbsp;
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>
