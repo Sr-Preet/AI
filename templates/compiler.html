@@ -1,0 +1,21 @@
+{% extends 'image.html' %}
+{% block content %}
+    <div align="center">
+        <h1 style="margin-top: 50px; font-weight: bolder;">Online Compiler</h1>
+        <h3 style="color: blue;">Select A Language First</h3>
+        <form method="post">
+            {% csrf_token %}
+            <select name="lng">
+                <option selected>Select The Language</option>
+                {% for k, v in lang.items %}
+                    <option value="{{ v }}">{{ k }}</option>
+                {% endfor %}
+            </select><br><br>
+            <textarea name="source" rows="20" cols="50" placeholder="{{ src }}"></textarea><br><br>
+            <button class="btn btn-primary" type="submit">Compile</button>
+            <br><br>
+        </form>
+        <h2>Output</h2>
+        <div id="cd">{{ res|safe }}</div>
+    </div>
+{% endblock content %}

@@ -132,3 +132,47 @@ def chatter(request):
 
 def soss(request):
     return render(request, 'soss.html', {})
+
+
+def comp(request):
+    context = {}
+    lang = {
+        'C': 'C',
+        'C++': 'CPP',
+        'C#': 'CSHARP',
+        'JAVA': 'JAVA',
+        'Perl': 'PERL',
+        'PHP': 'PHP',
+        'Python': 'PYTHON3',
+        'R': 'R',
+        'Ruby': 'RUBY',
+    }
+    context['lang'] = lang
+    if request.method == "POST":
+        ln = request.POST['lng']
+        src = request.POST['source']
+        RUN_URL = u'https://api.hackerearth.com/v3/code/run/'
+        CLIENT_SECRET = '469547230aac11857e2ef259e4ca5122bd9d63a6'
+
+        source = "print 'Hello World'"
+
+        data = {
+            'client_secret': CLIENT_SECRET,
+            'async': 0,
+            'source': src,
+            'lang': ln,
+            'time_limit': 5,
+            'memory_limit': 262144,
+        }
+
+        r = requests.post(RUN_URL, data=data)
+        out = r.json()
+        out = out['run_status']
+        if 'output_html' in out:
+            context['res'] = out['output_html']
+            context['src'] = src
+        else:
+            context['res'] = out['status_detail']
+            context['src'] = src
+        return render(request, 'compiler.html', context)
+    return render(request, 'compiler.html', context)

@@ -11,4 +11,5 @@ urlpatterns = [
     path('chatbot', views.chat, name='chat'),
     path('chatter', views.chatter, name='chatter'),
     path('soss', views.soss, name='soss'),
+    path('compiler', views.comp, name='comp'),
 ]
